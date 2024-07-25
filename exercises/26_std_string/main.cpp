@@ -1,4 +1,4 @@
-﻿#include <type_traits>  // Make sure this header is included
+#include <exercise.h>
 
 int main(int argc, char **argv) {
     using namespace std::string_literals;
