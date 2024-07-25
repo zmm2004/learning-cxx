@@ -1,18 +1,17 @@
-﻿#include "../exercise.h"
-#include <string>
-
-// READ: 字符串 <https://zh.cppreference.com/w/cpp/string/basic_string>
+﻿#include <type_traits>  // Make sure this header is included
 
 int main(int argc, char **argv) {
-    // READ: 字符串字面量 <https://zh.cppreference.com/w/cpp/string/basic_string/operator%22%22s>
     using namespace std::string_literals;
-    auto hello = "Hello"s;
-    auto world = "world";
-    // READ: `decltype` 表达式 <https://zh.cppreference.com/w/cpp/language/decltype>
-    // READ: `std::is_same_v` 元编程判别 <https://zh.cppreference.com/w/cpp/types/is_same>
-    ASSERT((std::is_same_v<decltype(hello), ?>), "Fill in the missing type.");
-    ASSERT((std::is_same_v<decltype(world), ?>), "Fill in the missing type.");
-    // TODO: 将 `?` 替换为正确的字符串
-    ASSERT(hello + ", " + world + '!' == "?", "Fill in the missing string.");
+
+    auto hello = "Hello"s;   // This is std::string type
+    auto world = "world";    // This is const char[6] type
+
+    // Use std::is_same with ::value
+    ASSERT((std::is_same<std::decay<decltype(hello)>::type, std::string>::value), "Fill in the missing type.");
+    ASSERT((std::is_same<std::decay<decltype(world)>::type, const char[6]>::value), "Fill in the missing type.");
+
+    // Replacing the `?` with the correct string
+    ASSERT(hello + ", " + world + '!' == "Hello, world!", "Fill in the missing string.");
+
     return 0;
 }

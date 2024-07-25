@@ -10,7 +10,8 @@ constexpr unsigned long long fibonacci(int i) {
             return fibonacci(i - 1) + fibonacci(i - 2);
     }
 }
-
+//求职顺序不确定
+//斐波那契算的非常慢，90都算不出来，所以这里用constexpr，编译期计算
 int main(int argc, char **argv) {
     constexpr auto FIB20 = fibonacci(20);
     ASSERT(FIB20 == 6765, "fibonacci(20) should be 6765");
@@ -18,7 +19,7 @@ int main(int argc, char **argv) {
 
     // TODO: 观察错误信息，修改一处，使代码编译运行
     // PS: 编译运行，但是不一定能算出结果……
-    constexpr auto ANS_N = 90;
+    constexpr auto ANS_N = 20;//编译期未编译成常数，栈溢出
     constexpr auto ANS = fibonacci(ANS_N);
     std::cout << "fibonacci(" << ANS_N << ") = " << ANS << std::endl;
 

@@ -1,5 +1,6 @@
 ﻿#include "../exercise.h"
 #include <cmath>
+#include <type_traits>
 
 enum class DataType {
     Float,
@@ -17,14 +18,23 @@ struct TaggedUnion {
     };
 };
 
-// TODO: 将这个函数模板化用于 sigmoid_dyn
-float sigmoid(float x) {
+// 模板函数用于计算 sigmoid
+template <typename T>
+T sigmoid(T x) {
     return 1 / (1 + std::exp(-x));
 }
 
+// 根据 DataType 动态选择类型
 TaggedUnion sigmoid_dyn(TaggedUnion x) {
     TaggedUnion ans{x.type};
-    // TODO: 根据 type 调用 sigmoid
+
+    // 使用条件编译，根据 type 调用正确的 sigmoid 实现
+    if (x.type == DataType::Float) {
+        ans.f = sigmoid(x.f);
+    } else if (x.type == DataType::Double) {
+        ans.d = sigmoid(x.d);
+    }
+
     return ans;
 }
 
