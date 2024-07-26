@@ -1,16 +1,13 @@
 #include "../exercise.h"
 
-// READ: 静态字段 <https://zh.cppreference.com/w/cpp/language/static>
-// READ: 虚析构函数 <https://zh.cppreference.com/w/cpp/language/destructor>
-
+// 定义类和静态字段
 struct A {
-    // TODO: 正确初始化静态字段
-    static int num_a;
+    static int num_a;  // 静态成员声明
 
     A() {
         ++num_a;
     }
-    ~A() {
+    virtual ~A() {  // 虚析构函数
         --num_a;
     }
 
@@ -19,17 +16,13 @@ struct A {
     }
 };
 
-// 初始化静态字段
-int A::num_a = 0;
-
 struct B final : public A {
-    // TODO: 正确初始化静态字段
-    static int num_b;
+    static int num_b;  // 静态成员声明
 
     B() {
         ++num_b;
     }
-    ~B() {
+    ~B() override {
         --num_b;
     }
 
@@ -38,7 +31,8 @@ struct B final : public A {
     }
 };
 
-// 初始化静态字段
+// 在类的作用域外定义静态成员
+int A::num_a = 0;
 int B::num_b = 0;
 
 int main(int argc, char **argv) {
@@ -59,7 +53,8 @@ int main(int argc, char **argv) {
     ASSERT(B::num_b == 1, "Fill in the correct value for B::num_b");
     ASSERT(ab->name() == 'B', "Fill in the correct value for ab->name()");
 
-    B &bb = dynamic_cast<B &>(*ab); // 使用 dynamic_cast 进行安全转换
+    // 基类指针无法随意转换为派生类指针，补全正确的转换语句
+    B &bb = dynamic_cast<B&>(*ab);
     ASSERT(bb.name() == 'B', "Fill in the correct value for bb->name()");
 
     // ---- 以下代码不要修改，通过改正类定义解决编译问题 ----
