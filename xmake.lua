@@ -1,3 +1,4 @@
+
 add_rules("mode.debug", "mode.release")
 set_encodings("utf-8")
 set_warnings("all")
